@@ -10,8 +10,12 @@ You have five minutes, to enter these five digits into the new "Two Auth Token" 
 
 The token will only generated, when the username and the password are valid.
 
-## Have You Tried Turning It Off And On Again
+## Problems: Have You Tried Turning It Off And On Again
 Should you have any trouble with the plugin, you can just delete it from the server and the login procedure still works as usual.
+
+## Todo
+* Translation
+* Maybe an admin page
 
 Plugin Page: [TwoAuth - WordPress Plugin][4]
 
