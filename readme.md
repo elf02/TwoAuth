@@ -11,7 +11,7 @@ You have five minutes, to enter these five digits into the new "Two Auth Token" 
 The token will only generated, when the username and the password are valid.
 
 ## Additional
-This is a experimental plugin. Please give me feedback: [email][7], [@_elf02][8].
+This is an experimental plugin. Please give me feedback: [email][7], [@_elf02][8].
 
 ## Problems: Have You Tried Turning It Off And On Again
 Should you have any trouble with the plugin, you can just delete it from the server and the login procedure still works as usual.
