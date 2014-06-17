@@ -10,6 +10,9 @@ You have five minutes, to enter these five digits into the new "Two Auth Token" 
 
 The token will only generated, when the username and the password are valid.
 
+## Additional
+This is a experimental plugin. Please give me feedback: [email][7], [@_elf02][8].
+
 ## Problems: Have You Tried Turning It Off And On Again
 Should you have any trouble with the plugin, you can just delete it from the server and the login procedure still works as usual.
 
@@ -25,3 +28,5 @@ Plugin Page: [TwoAuth - WordPress Plugin][4]
   [4]: http://elf02.de/2014/06/17/twoauth-wordpress-plugin/
   [5]: http://2014.hamburg.wordcamp.org/
   [6]: http://christoph-daum.de/
+  [7]: mailto:kontakt@elf02.de
+  [8]: https://twitter.com/_elf02
