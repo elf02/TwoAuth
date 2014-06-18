@@ -81,6 +81,17 @@ final class twoauth {
      * Add jQuery and twoauth.js
      */
     public function add_scripts() {
+        if(!wp_script_is('jquery', 'registered')) {
+            wp_register_script(
+                'jquery',
+                plugins_url(
+                    '/js/jquery-1.11.1.min.js',
+                    PLUGIN_FILE_TWOAUTH
+                ),
+                array(),
+                null
+            );
+        }
         wp_enqueue_script('jquery');
 
         wp_register_script(
