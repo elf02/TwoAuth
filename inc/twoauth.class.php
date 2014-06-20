@@ -1,10 +1,11 @@
 <?php
 
+defined('ABSPATH') OR exit;
+
+
 final class twoauth {
 
     private static $_token_field = 'twoauth_token';
-    private static $_msg_error = '<div id="login_error"><strong>TwoAuth ERROR</strong>: %s<br></div>';
-    private static $_msg = '<p class="message">%s<br></p>';
 
 
     /**
@@ -24,6 +25,14 @@ final class twoauth {
      * Init plugin
      */
     private function __construct() {
+
+        add_action(
+            'init',
+            array(
+                $this,
+                'register_textdomain'
+            )
+        );
 
         add_action(
             'login_enqueue_scripts',
@@ -78,6 +87,19 @@ final class twoauth {
 
 
     /**
+     * Translation
+     */
+    public function register_textdomain()
+    {
+        load_plugin_textdomain(
+            'twoauth',
+            false,
+            'TwoAuth/lang'
+        );
+    }
+
+
+    /**
      * Add jQuery and twoauth.js
      */
     public function add_scripts() {
@@ -125,10 +147,10 @@ final class twoauth {
      */
     public function loginform() {
         echo "\t<p>\n";
-        echo "\t\t<button type=\"button\" id=\"btn_twoauth\" class=\"button button-primary button-small\" style=\"float:none;width:100%;margin-bottom:8px;\">Get TwoAuth Token</button>";
+        echo "\t\t<button type=\"button\" id=\"btn_twoauth\" class=\"button button-primary button-small\" style=\"float:none;width:100%;margin-bottom:8px;\">". __('Get TwoAuth Token', 'twoauth') ."</button>";
         echo "\t</p>\n";
         echo "\t<p>\n";
-        echo "\t\t<label for=\"user_twoauth\">TwoAuth Token<br>";
+        echo "\t\t<label for=\"user_twoauth\">". __('TwoAuth Token', 'twoauth') ."<br>";
         echo "\t\t<input type=\"text\" name=\"twoauth\" id=\"user_twoauth\" class=\"input\" value=\"\" size=\"20\"></label>\n";
         echo "\t</p>\n";
     }
@@ -143,7 +165,10 @@ final class twoauth {
 
         $user = get_user_by('login', $user_login);
         if(!$user || !wp_check_password($user_pass, $user->data->user_pass, $user->ID)) {
-            printf(self::$_msg_error, 'Invalid Username or Password.');
+            printf('<div id="login_error"><strong>%s:</strong> %s<br></div>',
+                __('TwoAuth ERROR', 'twoauth'),
+                __('Invalid Username or Password.', 'twoauth')
+            );
             die();
         }
 
@@ -163,11 +188,14 @@ final class twoauth {
 
         wp_mail(
             $user->user_email,
-            __('Your TwoAuth Token'),
+            __('Your TwoAuth Token', 'twoauth'),
             $token
         );
 
-        printf(self::$_msg, __('Token sent via email. <strong>Valid for five minutes.</strong>'));
+        printf('<p class="message"><strong>%s:</strong> %s<br></p>',
+            __('TwoAuth', 'twoauth'),
+            __('Token sent via email. <strong>Valid for five minutes.</strong>', 'twoauth')
+        );
         die();
     }
 
@@ -212,7 +240,7 @@ final class twoauth {
 
             return new WP_Error(
                 'invalid_twoauth_token',
-                __('<strong>TwoAuth ERROR</strong>: Invalid or expired token.')
+                __('<strong>TwoAuth ERROR:</strong> Invalid or expired token.', 'twoauth')
             );
 
         }

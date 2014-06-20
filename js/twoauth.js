@@ -16,11 +16,6 @@
         var user_login = $('#user_login').val(),
             user_pass = $('#user_pass').val();
 
-        if(user_login == '' || user_pass == '') {
-            show_message('<div id="login_error"><strong>TwoAuth ERROR</strong>: Please set first a valid Username and Password.<br></div>');
-            return;
-        }
-
         var data = {
             'action': 'twoauth',
             'user_login': user_login,
