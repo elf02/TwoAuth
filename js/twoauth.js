@@ -11,7 +11,11 @@
 
     $('#btn_twoauth').click(function() {
 
-        $(this).blur();
+        var $btn_twoauth = $(this);
+
+        $btn_twoauth
+            .css('cursor', 'progress')
+            .blur();
 
         var user_login = $('#user_login').val(),
             user_pass = $('#user_pass').val();
@@ -24,6 +28,7 @@
 
         $.post(ajaxurl, data, function(response) {
             show_message(response);
+            $btn_twoauth.css('cursor', 'pointer');
         });
 
     });
