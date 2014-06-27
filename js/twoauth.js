@@ -4,21 +4,19 @@
     "use strict";
 
     function show_message(msg) {
-        $('#login_error').remove();
-        $('.message').remove();
+        $('#login_error, .message').remove();
         $('#login h1:first-child').after(msg);
     }
 
     $('#btn_twoauth').click(function() {
 
-        var $btn_twoauth = $(this);
+        var $btn_twoauth = $(this),
+            user_login = $('#user_login').val(),
+            user_pass = $('#user_pass').val();
 
         $btn_twoauth
             .css('cursor', 'progress')
             .blur();
-
-        var user_login = $('#user_login').val(),
-            user_pass = $('#user_pass').val();
 
         var data = {
             'action': 'twoauth',
