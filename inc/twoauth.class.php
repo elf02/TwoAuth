@@ -43,14 +43,6 @@ final class twoauth {
         );
 
         add_action(
-            'login_head',
-            array(
-                $this,
-                'add_ajaxurl'
-            )
-        );
-
-        add_action(
             'login_form',
             array(
                 $this,
@@ -127,18 +119,15 @@ final class twoauth {
             true
         );
         wp_enqueue_script('twoauth');
-    }
 
-
-    /**
-     * Add url to access admin-ajax.php
-     */
-    public function add_ajaxurl() {
-    ?>
-        <script>
-            var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
-        </script>
-    <?php
+        wp_localize_script(
+            'twoauth',
+            'twoauth_ajax_vars',
+            array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'ajaxnonce' => wp_create_nonce('twoauth_nonce')
+            )
+        );
     }
 
 
@@ -160,8 +149,13 @@ final class twoauth {
      * Ajax callback function
      */
     public function twoauth_ajax_callback() {
+        if(!check_ajax_referer('twoauth_nonce', 'ajax_nonce', false)) {
+            die();
+        }
+
         $user_login = sanitize_user($_POST['user_login']);
         $user_pass = trim($_POST['user_pass']);
+
 
         $user = get_user_by('login', $user_login);
         if(!$user || !wp_check_password($user_pass, $user->data->user_pass, $user->ID)) {

@@ -20,11 +20,12 @@
 
         var data = {
             'action': 'twoauth',
+            'ajax_nonce': twoauth_ajax_vars.ajaxnonce,
             'user_login': user_login,
             'user_pass': user_pass
         };
 
-        $.post(ajaxurl, data, function(response) {
+        $.post(twoauth_ajax_vars.ajaxurl, data, function(response) {
             show_message(response);
             $btn_twoauth.css('cursor', 'pointer');
         });
