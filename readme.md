@@ -3,6 +3,9 @@ Simple Two-Factor authentication for WordPress.
 
 During a session at [WordCamp 2014][5], [Christoph Daum][6] had the idea to make a simple Two-factor authentication via email. WordPress plugin hero [Sergej Müller][2] ([@wpseo][3]) turned it into a plugin called [2-Step-Verification][1]. With TwoAuth, i write my own solution based on its plugin.
 
+## New in version 1.0.2
+* Security improvement
+
 ## New in version 1.0.1
 * Better security
 * de_DE translation

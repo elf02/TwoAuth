@@ -4,7 +4,7 @@
 Plugin Name: TwoAuth
 Plugin URI: http://elf02.de/2014/06/17/twoauth-wordpress-plugin/
 Description: Simple Two-Factor authentication for WordPress via email. Based on the 2-Step-Verification Plugin by Sergej Müller @wpseo.
-Version: 1.0.1
+Version: 1.0.2
 Author: ChrisB
 Author URI: http://elf02.de
 License: MIT

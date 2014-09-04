@@ -6,6 +6,8 @@ defined('ABSPATH') OR exit;
 final class twoauth {
 
     private static $_token_field = 'twoauth_token';
+    private static $_nonce_field = 'twoauth_nonce';
+    private static $_post_cookie = 'twoauth_ajax_post_protection';
 
 
     /**
@@ -31,6 +33,14 @@ final class twoauth {
             array(
                 $this,
                 'register_textdomain'
+            )
+        );
+
+        add_action(
+            'login_init',
+            array(
+                $this,
+                'set_post_protection_cookie'
             )
         );
 
@@ -92,6 +102,23 @@ final class twoauth {
 
 
     /**
+     * Post protection cookie
+     */
+    public function set_post_protection_cookie()
+    {
+        if(strtoupper($_SERVER['REQUEST_METHOD']) === 'GET' && !isset($_COOKIE[self::$_post_cookie])) {
+            setcookie(
+                self::$_post_cookie,
+                '1',
+                time() + DAY_IN_SECONDS
+            );
+
+            $_COOKIE[self::$_post_cookie] = '1';
+        }
+    }
+
+
+    /**
      * Add jQuery and twoauth.js
      */
     public function add_scripts() {
@@ -124,8 +151,8 @@ final class twoauth {
             'twoauth',
             'twoauth_ajax_vars',
             array(
-                'ajaxurl' => admin_url('admin-ajax.php'),
-                'ajaxnonce' => wp_create_nonce('twoauth_nonce')
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'ajax_nonce' => wp_create_nonce(self::$_nonce_field)
             )
         );
     }
@@ -136,7 +163,7 @@ final class twoauth {
      */
     public function loginform() {
         echo "\t<p>\n";
-        echo "\t\t<button type=\"button\" id=\"btn_twoauth\" class=\"button button-primary button-small\" style=\"float:none;width:100%;margin-bottom:8px;\">". __('Get TwoAuth Token', 'twoauth') ."</button>";
+        echo "\t\t<button type=\"button\" id=\"btn_twoauth\" class=\"button button-primary button-small\" style=\"float:none;width:100%;margin-bottom:8px;\">". __('Get TwoAuth Token', 'twoauth') ."</button>\n";
         echo "\t</p>\n";
         echo "\t<p>\n";
         echo "\t\t<label for=\"user_twoauth\">". __('TwoAuth Token', 'twoauth') ."<br>";
@@ -149,9 +176,12 @@ final class twoauth {
      * Ajax callback function
      */
     public function twoauth_ajax_callback() {
-        if(!check_ajax_referer('twoauth_nonce', 'ajax_nonce', false)) {
+
+        // Referer and Post protection
+        if(!check_ajax_referer(self::$_nonce_field, 'ajax_nonce', false) || !isset($_COOKIE[self::$_post_cookie])) {
             die();
         }
+
 
         $user_login = sanitize_user($_POST['user_login']);
         $user_pass = trim($_POST['user_pass']);
