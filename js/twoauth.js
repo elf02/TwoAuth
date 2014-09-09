@@ -12,8 +12,7 @@
         e.preventDefault();
 
         var $btn_twoauth = $(this),
-            user_login = $('#user_login').val(),
-            user_pass = $('#user_pass').val();
+            user_login = $('#user_login').val();
 
         $btn_twoauth
             .css('cursor', 'progress')
@@ -22,8 +21,7 @@
         var data = {
             'action': 'twoauth',
             'ajax_nonce': twoauth_ajax_vars.ajax_nonce,
-            'user_login': user_login,
-            'user_pass': user_pass
+            'user_login': user_login
         };
 
         $.post(twoauth_ajax_vars.ajax_url, data, function(response) {
