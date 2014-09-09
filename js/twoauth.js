@@ -8,7 +8,8 @@
         $('#login h1:first-child').after(msg);
     }
 
-    $('#btn_twoauth').click(function() {
+    $('#btn_twoauth').click(function(e) {
+        e.preventDefault();
 
         var $btn_twoauth = $(this),
             user_login = $('#user_login').val(),
