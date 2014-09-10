@@ -340,15 +340,15 @@ final class twoauth {
 
         $user_meta = get_user_meta( $user->ID );
 
-        $twoauth_token = ( isset( $user_meta[self::$_token_field] ) ) ?
+        $twoauth_token = ( isset( $user_meta[self::$_token_field][0] ) ) ?
             $user_meta[self::$_token_field][0] :
             '';
 
-        $twoauth_app = ( isset( $user_meta[self::$_app_field] ) ) ?
+        $twoauth_app = ( isset( $user_meta[self::$_app_field][0] ) ) ?
             $user_meta[self::$_app_field][0] :
             '0';
 
-        $twoauth_apppw = ( isset( $user_meta[self::$_apppw_field] ) ) ?
+        $twoauth_apppw = ( isset( $user_meta[self::$_apppw_field][0] ) ) ?
             $user_meta[self::$_apppw_field][0] :
             '';
 
