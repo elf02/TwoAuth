@@ -170,7 +170,7 @@ final class twoauth {
             return false;
         }
 
-        $twoauth_app = ( isset( $_POST['twoauth_app'] ) ) ? intval( $_POST['twoauth_app'] ) : 0;
+        $twoauth_app = (int) isset( $_POST['twoauth_app'] );
         $twoauth_apppw = $_POST['twoauth_apppw'];
         $twoauth_email = $_POST['twoauth_email'];
 
@@ -346,7 +346,7 @@ final class twoauth {
 
         $twoauth_app = ( isset( $user_meta[self::$_app_field][0] ) ) ?
             $user_meta[self::$_app_field][0] :
-            '0';
+            0;
 
         $twoauth_apppw = ( isset( $user_meta[self::$_apppw_field][0] ) ) ?
             $user_meta[self::$_apppw_field][0] :
@@ -361,7 +361,7 @@ final class twoauth {
 
         } else {
 
-            if( $twoauth_app === '1' && wp_check_password( $password, $twoauth_apppw, $user->ID ) && (defined('XMLRPC_REQUEST') || defined('APP_REQUEST')) ) {
+            if( $twoauth_app && wp_check_password( $password, $twoauth_apppw, $user->ID ) && (defined('XMLRPC_REQUEST') || defined('APP_REQUEST')) ) {
 
                 return new WP_User( $user->ID );
 
