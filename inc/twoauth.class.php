@@ -18,7 +18,7 @@ final class twoauth {
     private static $instance = null;
 
     public static function instance() {
-        if( NULL === self::$instance ) {
+        if(NULL === self::$instance) {
             self::$instance = new self;
         }
         return self::$instance;
@@ -106,11 +106,11 @@ final class twoauth {
     /**
      * Show profile fields
      */
-    public function twoauth_profile_fields( $user ) { ?>
+    public function twoauth_profile_fields($user) { ?>
         <h3>TwoAuth</h3>
         <table class="form-table">
             <tr>
-                <th scope="row"><?php _e( 'Enable App Password', 'twoauth' ); ?></th>
+                <th scope="row"><?php _e('Enable App Password', 'twoauth'); ?></th>
                 <td>
                     <label for="twoauth_app">
                         <?php
@@ -123,8 +123,8 @@ final class twoauth {
 
                             printf(
                                 '<input type="checkbox" name="twoauth_app" id="twoauth_app" value="1" %s>%s',
-                                checked( $twoauth_app, 1, false ),
-                                __( 'Enable', 'twoauth' )
+                                checked($twoauth_app, 1, false),
+                                __('Enable', 'twoauth')
                             );
 
                         ?>
@@ -132,14 +132,14 @@ final class twoauth {
                 </td>
             </tr>
             <tr>
-                <th scope="row"><label for="twoauth_apppw"><?php _e( 'App Password', 'twoauth' ); ?></label></th>
+                <th scope="row"><label for="twoauth_apppw"><?php _e('App Password', 'twoauth'); ?></label></th>
                 <td>
                     <input name="twoauth_apppw" type="password" id="twoauth_apppw" class="regular-text" value="" autocomplete="off"><br>
-                    <span class="description" for="twoauth_apppw"><?php _e( 'Set an App password', 'twoauth' ); ?></span>
+                    <span class="description" for="twoauth_apppw"><?php _e('Set an App password', 'twoauth'); ?></span>
                 </td>
             </tr>
             <tr>
-                <th scope="row"><label for="twoauth_email"><?php _e( 'Token Email Address', 'twoauth' ); ?></label></th>
+                <th scope="row"><label for="twoauth_email"><?php _e('Token Email Address', 'twoauth'); ?></label></th>
                 <td>
                     <?php
 
@@ -155,7 +155,7 @@ final class twoauth {
                         );
 
                     ?>
-                    <span class="description" for="twoauth_email"><?php _e( 'Leave it blank, to use your account email address.', 'twoauth' ); ?></span>
+                    <span class="description" for="twoauth_email"><?php _e('Leave it blank, to use your account email address.', 'twoauth'); ?></span>
                 </td>
             </tr>
         </table>
@@ -165,12 +165,12 @@ final class twoauth {
     /**
      * Save profile fields
      */
-    public function twoauth_save_profile_fields( $user_id ) {
-        if( !current_user_can( 'edit_user', $user_id ) ) {
+    public function twoauth_save_profile_fields($user_id) {
+        if(!current_user_can('edit_user', $user_id)) {
             return false;
         }
 
-        $twoauth_app = (int) isset( $_POST['twoauth_app'] );
+        $twoauth_app = (int) isset($_POST['twoauth_app']);
         $twoauth_apppw = $_POST['twoauth_apppw'];
         $twoauth_email = $_POST['twoauth_email'];
 
@@ -180,18 +180,18 @@ final class twoauth {
             $twoauth_app
         );
 
-        if( !empty( $twoauth_apppw ) ) {
+        if(!empty($twoauth_apppw)) {
             update_user_meta(
                 $user_id,
                 self::$_apppw_field,
-                wp_hash_password( trim( $twoauth_apppw ) )
+                wp_hash_password(trim($twoauth_apppw))
             );
         }
 
         update_user_meta(
             $user_id,
             self::$_email_field,
-            sanitize_email( $twoauth_email )
+            sanitize_email($twoauth_email)
         );
     }
 
@@ -200,7 +200,7 @@ final class twoauth {
      * Add jQuery and twoauth.js
      */
     public function add_scripts() {
-        if( !wp_script_is( 'jquery', 'registered' ) ) {
+        if(!wp_script_is('jquery', 'registered')) {
             wp_register_script(
                 'jquery',
                 sprintf(
@@ -212,7 +212,7 @@ final class twoauth {
                 null
             );
         }
-        wp_enqueue_script( 'jquery' );
+        wp_enqueue_script('jquery');
 
         wp_register_script(
             'twoauth',
@@ -225,14 +225,14 @@ final class twoauth {
             null,
             true
         );
-        wp_enqueue_script( 'twoauth' );
+        wp_enqueue_script('twoauth');
 
         wp_localize_script(
             'twoauth',
             'twoauth_ajax_vars',
             array(
-                'ajax_url' => admin_url( 'admin-ajax.php' ),
-                'ajax_nonce' => wp_create_nonce( self::$_nonce_field )
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'ajax_nonce' => wp_create_nonce(self::$_nonce_field)
             )
         );
     }
@@ -257,14 +257,14 @@ final class twoauth {
      */
     public function twoauth_ajax_callback() {
         // Ajax nonce check
-        if( !check_ajax_referer( self::$_nonce_field, 'ajax_nonce', false ) ) {
+        if(!check_ajax_referer(self::$_nonce_field, 'ajax_nonce', false)) {
             die();
         }
 
-        $user_login = sanitize_user( $_POST['user_login'] );
+        $user_login = sanitize_user($_POST['user_login']);
 
-        $user = get_user_by( 'login', $user_login );
-        if( false === $user ) {
+        $user = get_user_by('login', $user_login);
+        if(false === $user) {
             printf(
                 '<div id="login_error"><strong>%s:</strong> %s<br></div>',
                 __('TwoAuth ERROR', 'twoauth'),
@@ -279,13 +279,13 @@ final class twoauth {
             true
         );
 
-        $user_email = ( !empty( $twoauth_email ) ) ? $twoauth_email : $user->user_email;
+        $user_email = (!empty($twoauth_email)) ? $twoauth_email : $user->user_email;
 
-        $token = wp_generate_password( 5, false );
+        $token = wp_generate_password(5, false);
         update_user_meta(
             $user->ID,
             self::$_token_field,
-            wp_hash_password( $token )
+            wp_hash_password($token)
         );
 
         set_site_transient(
@@ -296,14 +296,14 @@ final class twoauth {
 
         wp_mail(
             $user_email,
-            __( 'Your TwoAuth Token', 'twoauth' ),
+            __('Your TwoAuth Token', 'twoauth'),
             $token
         );
 
         printf(
             '<p class="message"><strong>%s:</strong> %s<br></p>',
-            __( 'TwoAuth', 'twoauth' ),
-            __( 'Token sent via email. <strong>Valid for five minutes.</strong>', 'twoauth' )
+            __('TwoAuth', 'twoauth'),
+            __('Token sent via email. <strong>Valid for five minutes.</strong>', 'twoauth')
         );
         die();
     }
@@ -323,53 +323,53 @@ final class twoauth {
     /**
      * Custom login verification
      */
-    public function check_token( $user, $username = '', $password = '' ) {
+    public function check_token($user, $username = '', $password = '') {
         $userstate = $user;
 
-        $user = get_user_by( 'login', $username );
-        if( false === $user ) {
+        $user = get_user_by('login', $username);
+        if(false === $user) {
             return $userstate;
         }
 
-        if( !get_site_transient( self::$_token_field . $user->ID ) ) {
+        if(!get_site_transient(self::$_token_field . $user->ID)) {
             delete_user_meta(
                 $user->ID,
                 self::$_token_field
             );
         }
 
-        $user_meta = get_user_meta( $user->ID );
+        $user_meta = get_user_meta($user->ID);
 
-        $twoauth_token = ( isset( $user_meta[self::$_token_field][0] ) ) ?
+        $twoauth_token = (isset($user_meta[self::$_token_field][0])) ?
             $user_meta[self::$_token_field][0] :
             '';
 
-        $twoauth_app = ( isset( $user_meta[self::$_app_field][0] ) ) ?
+        $twoauth_app = (isset($user_meta[self::$_app_field][0])) ?
             $user_meta[self::$_app_field][0] :
             0;
 
-        $twoauth_apppw = ( isset( $user_meta[self::$_apppw_field][0] ) ) ?
+        $twoauth_apppw = (isset($user_meta[self::$_apppw_field][0])) ?
             $user_meta[self::$_apppw_field][0] :
             '';
 
-        $user_twoauth = sanitize_text_field( trim( $_POST['user_twoauth'] ) );
+        $user_twoauth = sanitize_text_field(trim($_POST['user_twoauth']));
 
 
-        if(wp_check_password( $user_twoauth, $twoauth_token, $user->ID) ) {
+        if(wp_check_password($user_twoauth, $twoauth_token, $user->ID)) {
 
             return $userstate;
 
         } else {
 
-            if( $twoauth_app && wp_check_password( $password, $twoauth_apppw, $user->ID ) && (defined('XMLRPC_REQUEST') || defined('APP_REQUEST')) ) {
+            if($twoauth_app && wp_check_password($password, $twoauth_apppw, $user->ID) && (defined('XMLRPC_REQUEST') || defined('APP_REQUEST'))) {
 
-                return new WP_User( $user->ID );
+                return new WP_User($user->ID);
 
             } else {
 
                 return new WP_Error(
                     'invalid_twoauth_token',
-                    __( '<strong>TwoAuth ERROR:</strong> Invalid or expired token.', 'twoauth' )
+                    __('<strong>TwoAuth ERROR:</strong> Invalid or expired token.', 'twoauth')
                 );
 
             }
